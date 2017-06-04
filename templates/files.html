@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block nav %}
+  {% include "nav/nav-courses.html" %}
+{% endblock %}
+
+{% block body %}
+  {% include "comp/upload_dialog.html" %}
+  <div class="mdl-layout__tab-panel is-active" id="overview">
+    <div class="files-table">
+      <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp files">
+        <thead>
+          <tr>
+            <th class="icon"></th>
+            <th class="mdl-data-table__cell--non-numeric" class="title">Title</th>
+            <th class="mdl-data-table__cell--non-numeric title">Last Modified</th>
+            <th class="mdl-data-table__cell--non-numeric title">Class</th>
+            <th class="icon"></th>
+          </tr>
+        </thead>
+        <tbody>
+        {% if uploads|length > 0 %}
+          {% for upload in uploads %}
+            <tr class="file-link" data-href="{{ url_for('details', upload_id=upload.upload_id) }}">
+              <td class="icon"><i class="material-icons">insert_drive_file</i></td>
+              <td class="mdl-data-table__cell--non-numeric title">
+                <a>{{ upload.title }}</a>
+              </td>
+              <td class="mdl-data-table__cell--non-numeric title">
+                {{ upload.date.strftime('%B %-d %Y, %-I:%M %p') }}
+              </td>
+              <td class="mdl-data-table__cell--non-numeric title">
+                <span class="mdl-chip mdl-color--{{ upload.color.lower().replace(' ', '-') }} mdl-color-text--white">
+                  <span class="mdl-chip__text">{{ upload.course }}</span>
+                </span>
+              </td>
+              <td>
+                <button id="delete-menu-{{ loop.index }}" class="mdl-button mdl-js-button mdl-button--icon file-delete">
+                  <i class="material-icons">more_vert</i>
+                </button>
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="delete-menu-{{ loop.index }}">
+                  <li class="mdl-menu__item delete-link" data-href="{{ url_for('delete_upload', upload_id=upload.upload_id) }}">
+                    Delete
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td class="mdl-data-table__cell--non-numeric full-width-message" colspan="4">
+              No files yet!
+            </td>
+          </tr>
+        {% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored new-file" onclick="toggle_dialog()">
+      <i class="material-icons">add</i>
+    </button>
+  </div>
+{% endblock %}
+{% block extras %}
+  <script>
+    jQuery(document).ready(function($) {
+      $(".file-link").click(function(e) {
+        if (!$(e.target).hasClass("material-icons")) {
+          window.location = $(this).data("href");
+        }
+      });
+      $(".delete-link").click(function(e) {
+        e.stopPropagation();
+        window.location =  $(this).data("href")
+      })
+    });
+  </script>
+{% endblock %}

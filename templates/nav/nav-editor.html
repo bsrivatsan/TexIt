@@ -1,0 +1,56 @@
+{% extends "nav/nav.html" %}
+
+{% block title %}
+  <span onclick="location.href='/files';" style="cursor:pointer;">
+    <i class="material-icons">arrow_back</i>
+  </span>
+  <span class="mdl-layout-title">
+    {{ file.title }}
+  </span>
+{% endblock %}
+{% block right %}
+  <span id="save_code" class="link-icon">
+    <i class="material-icons">save</i>
+  </span>
+  <span id='file_download' class="link-icon">
+    <i class="material-icons">file_download</i>
+  </span>
+  <script>
+  $( "#save_code" ).click(function() {
+      var data = $('#editor').innerText();
+      $.post( "/save/{{file.latex_url}}", {data:data, upload_id:{{file.upload_id}}});
+      location.reload();
+  });
+  $("#file_download").click(function() {
+      var data = $('#editor').innerText();
+      console.log(data);
+      $.post( "/save/{{file.latex_url}}", {data:data, upload_id:{{file.upload_id}}});
+      window.open("/get_upload/{{file.latex_url}}");
+  });
+
+// InnerText function for retaining line breaks taken from: http://stackoverflow.com/questions/22678446/how-to-keep-line-breaks-when-using-text-method-for-jquery
+(function($){
+   $.fn.innerText = function(msg) {
+         if (msg) {
+            if (document.body.innerText) {
+               for (var i in this) {
+                  this[i].innerText = msg;
+               }
+            } else {
+               for (var i in this) {
+                  this[i].innerHTML.replace(/&amp;lt;br&amp;gt;/gi,"n").replace(/(&amp;lt;([^&amp;gt;]+)&amp;gt;)/gi, "");
+               }
+            }
+            return this;
+         } else {
+            if (document.body.innerText) {
+               return this[0].innerText;
+            } else {
+               return this[0].innerHTML.replace(/&amp;lt;br&amp;gt;/gi,"n").replace(/(&amp;lt;([^&amp;gt;]+)&amp;gt;)/gi, "");
+            }
+         }
+   };
+})(jQuery);
+</script>
+
+{% endblock %}

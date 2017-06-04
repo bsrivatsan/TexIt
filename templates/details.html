@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block nav %}
+  {% include "nav/nav-editor.html" %}
+{% endblock %}
+
+{% block body %}
+  <div class="big-editor-wrapper">
+    {# JCrop #}
+    <div class="preview-wrapper">
+      <div id="preview">
+        <img src="{{ file.image }}" id="target" alt="scanned image" />
+      </div>
+      <span class="instructions">Draw a box around an equation, then click convert.</span>
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+              onclick="clearCoords('{{ file.upload_id }}', '{{ file.image_url }}', '{{ file.latex_url }}')">
+        Convert
+      </button>
+    </div>
+    {# ACE editor #}
+    <div class="editor-wrapper">
+      <div id="editor-cover" class="hidden">
+        <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+      </div>
+      <div id="editor">{{ file.code }}</div>
+    </div>
+
+    <div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+      <div class="mdl-snackbar__text"></div>
+      <button class="mdl-snackbar__action" type="button"></button>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extras %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.Jcrop.css') }}" />
+  <script src="{{ url_for('static', filename='js/vendor/ace/ace.js') }}" type="text/javascript" charset="utf-8"></script>
+  <script src="{{ url_for('static', filename='js/editor.js') }}" type="text/javascript" charset="utf-8"></script>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends "layout.html" %}
+{% block nav %}
+  {% include "nav/nav.html" %}
+{% endblock %}
+{% block body %}
+  <main class="settings">
+    <h2>Account Info</h2>
+    <div class="info">
+      <span class="key">Name:</span><span class="val">{{ user.first }} {{ user.last }}</span>
+    </div>
+    <div class="info">
+      <span class="key">Email:</span><span class="val">{{ user.email }}</span>
+    </div>
+    <h2>Classes</h2>
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp files">
+      <thead>
+      <tr>
+        <th class="mdl-data-table__cell--non-numeric">Name</th>
+        <th class="mdl-data-table__cell--non-numeric color">Color</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for course in courses %}
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">
+            {{ course.name }}
+          </td>
+          <td class="mdl-data-table__cell--non-numeric color">
+            <span class="mdl-chip mdl-color--{{ course.color.lower().replace(' ', '-') }} mdl-color-text--white">
+              <span class="mdl-chip__text">{{ course.color }}</span>
+            </span>
+          </td>
+          <td class="mdl-data-table__cell--non-numeric del">
+            {% if courses|length > 1 %}
+              <a class="delete" onclick="del_course('{{ course.class_id }}')">Delete</a>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+      <tr>
+        <td colspan="3" class="full-width-message">
+          <a onclick="startNew(this)" style="cursor:pointer;">+ Add New</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </main>
+{% endblock %}
+{% block extras %}
+  <script>
+      function startNew(e) {
+          // these colors are all those currently available from the Material Design Lite CDN.
+          $(e).closest('table').find('tr:last').html(
+              "<td class='mdl-data-table__cell--non-numeric'><input type='text' class='mdl-textfield__input' placeholder='Name' id='name'/>" +
+              "<div class='error hidden' id='title-error'></div></td>" +
+              "<td class='mdl-data-table__cell--non-numeric color'><select id='color'>" +
+              "<option value='Red'>Red</option>" +
+              "<option value='Pink'>Pink</option>" +
+              "<option value='Purple'>Purple</option>" +
+              "<option value='purple'>Indigo</option>" +
+              "<option value='Indigo'>Blue</option>" +
+              "<option value='Light Blue'>Light Blue</option>" +
+              "<option value='Cyan'>Cyan</option>" +
+              "<option value='Teal'>Teal</option>" +
+              "<option value='Green'>Green</option>" +
+              "<option value='Light Green'>Light Green</option>" +
+              "<option value='Lime'>Lime</option>" +
+              "<option value='Yellow'>Yellow</option>" +
+              "<option value='Amber'>Amber</option>" +
+              "<option value='Deep Orange<'>Deep Orange</option>" +
+              "<option value='Brown'>Brown</option>" +
+              "<option value='Grey'>Grey</option>" +
+              "<option value='Blue Grey'>Blue Grey</option>" +
+              "</select></td>" +
+              "<td class='mdl-data-table__cell--non-numeric del'><a class='save' href='#' onclick='submitNewCourse()'>Save</a></td>");
+      }
+      function submitNewCourse() {
+          var name = $("#name");
+          if (name.val().length < 3) {
+              $("#title-error").text("Name must be at least 3 characters").removeClass("hidden");
+              return;
+          }
+          if (name.val().length > 20) {
+              $("#title-error").text("Name must be shorter than 20 characters").removeClass("hidden");
+              return;
+          }
+          var formData = new FormData();
+          formData.append("name", name.val());
+          formData.append("color", $("#color").find(":selected").text());
+          var request = new XMLHttpRequest();
+          request.open("POST", "{{ url_for('new_course') }}");
+          location.reload();
+          return request.send(formData);
+      }
+      function del_course(id) {
+          if (window.confirm('Are you sure you want to delete this class? All associated assignments will also be deleted. This cannot be undone.'))
+          {
+              window.location.href="/delete_course/" + id;
+          };
+      }
+  </script>
+{% endblock %}

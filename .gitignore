@@ -1,0 +1,16 @@
+.DS_Store
+*.pyc
+*.pyo
+env
+env*
+dist
+build
+.idea/
+333/
+keys/
+.elasticbeanstalk/
+.ebextensions/
+__pycache__/
+api/__pycache__/
+mdl-template-dashboard/
+mdl-template-text-only/

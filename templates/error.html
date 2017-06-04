@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block nav %}
+  {% include "nav/nav.html" %}
+{% endblock %}
+{% block body %}
+  <main class="error">
+    <h1>{{ error.header }}</h1>
+    <p>{{ error.main }}</p>
+  </main>
+{% endblock %}

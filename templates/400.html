@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block nav %}
+  {% include "nav/nav.html" %}
+{% endblock %}
+{% block body %}
+  <main class="error">
+    <h1>{{ errorcode }}</h1>
+    <p>Just like your Problem Set 3 hours ago, there's nothing here.</p>
+  </main>
+{% endblock %}

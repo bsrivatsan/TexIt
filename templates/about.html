@@ -1,0 +1,115 @@
+<!doctype html>
+<!--
+  Material Design Lite
+  Copyright 2015 Google Inc. All rights reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License
+-->
+<html lang="en">
+{% include "comp/head.html" %}
+
+<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+{% include "comp/upload_dialog.html" %}
+
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <a class="outside-page-link" href="/files">
+    <i class="material-icons features">home</i>
+  </a>
+  <main class="mdl-layout__content">
+   <div class="mdl-layout__tab-panel is-active" id="overview">
+     <h1 class="brand about-brand">TexIt</h1>
+    <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+      <div class="mdl-card mdl-cell mdl-cell--12-col">
+        <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
+          <h4 class="mdl-cell mdl-cell--12-col">Features</h4>
+          <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+            <div class="section__circle-container__circle mdl-color--primary">
+              <i class="material-icons features">backup</i>
+            </div>
+          </div>
+          <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+            <h5>Easy Conversion</h5>
+            From .jpg to .tex in one click
+          </div>
+          <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+            <div class="section__circle-container__circle mdl-color--primary">
+              <i class="material-icons features">center_focus_strong</i>
+            </div>
+          </div>
+          <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+            <h5>Advanced Image Processing</h5>
+            Your handwriting sucks. Your camera sucks. PSets suck. We make it work.
+          </div>
+          <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+            <div class="section__circle-container__circle mdl-color--primary">
+              <i class="material-icons features">format_shapes</i>
+            </div>
+          </div>
+          <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+            <h5>Immediate Results</h5>
+            Edit your code without leaving our app, so that you can download LaTeX that's exactly what you want it to be.
+          </div>
+        </div>
+        <div class="mdl-card__actions" style="text-align:center">
+          <a href="{{url_for('static', filename='des_doc.pdf')}}" class="mdl-button"><i class="material-icons">assignment</i> See our design doc</a>
+        </div>
+      </div>
+    </section>
+    <h2 style="margin:0 auto;max-width:860px; text-align:center;">Our Team</h2>
+    <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+      <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
+        <img src="{{ url_for('static', filename='img/bharath.jpg') }}" class="biopic" />
+      </header>
+      <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+        <div class="mdl-card__supporting-text">
+          <h4>Bharath Srivatsan</h4>
+          Class of 2018. COS Major. Debate President Emeritus. Image Processing Pro.
+        </div>
+        <div class="mdl-card__actions">
+          <a href="mailto:bharaths@princeton.edu" class="mdl-button">Contact</a>
+        </div>
+      </div>
+    </section>
+    <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+      <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
+        <img src="{{ url_for('static', filename='img/rohan.jpg') }}" class="biopic"/>
+      </header>
+      <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+        <div class="mdl-card__supporting-text">
+          <h4>Rohan Doshi</h4>
+          Class of 2018. COS Major. Backend boss.
+        </div>
+        <div class="mdl-card__actions">
+          <a href="mailto:rkdoshi@princeton.edu" class="mdl-button">Contact</a>
+        </div>
+      </div>
+    </section>
+    <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+      <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
+        <img src="{{ url_for('static', filename='img/andrew.jpg') }}" class="biopic"/>
+      </header>
+      <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+        <div class="mdl-card__supporting-text">
+          <h4>Andrew Hartnett</h4>
+          Class of 2018. Woody Woo?? Front-end fanatic.
+        </div>
+        <div class="mdl-card__actions">
+          <a href="mailto:arh3@princeton.edu" class="mdl-button">Contact</a>
+        </div>
+      </div>
+    </section>
+     </div>
+  </main>
+</div>
+</body>
+</html>

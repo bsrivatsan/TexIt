@@ -1,0 +1,29 @@
+{% extends "nav/nav.html" %}
+
+{% block middle %}
+  <div class="select-course" id="select-course">
+    {{ course_name }}
+    <div class="options-list hidden" id="options-list">
+      <div class="option all" data-href="{{ url_for('files', class_id=None) }}">
+            <span class="mdl-chip__contact mdl-color--black mdl-color-text--white">
+              A
+            </span>
+        All Classes</div>
+      {% for course in courses %}
+        <div class="option " data-href="{{ url_for('files', class_id=course.class_id) }}">
+            <span class="mdl-chip__contact mdl-color--{{ course.color.lower().replace(' ', '-') }} mdl-color-text--white">
+              {{ course.name[0] }}
+            </span>
+          {{ course.name }}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <script>
+      $("#select-course").click(function(e) {
+          $("#options-list").toggleClass("hidden");
+          e.stopPropagation();
+          $("body").one( "click", function() { $("#options-list").addClass("hidden"); } );
+      });
+  </script>
+{% endblock %}

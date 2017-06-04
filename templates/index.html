@@ -1,0 +1,146 @@
+<html>
+{% include "comp/head.html" %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<body>
+<header id="splash">
+  <a data-toggle="modal" data-target="#login">Login</a>
+</header>
+<!-- Login -->
+{# the modals used for the forms on this page are taken from the bootstrap template docs. #}
+<div class="modal fade text-center" id="login" tabindex="-1" role="dialog" aria-labelledby="login">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Log in</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action='/login' name="login" id="log_in">
+          <div class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="email" name="email" id="login_email">
+            <label class="mdl-textfield__label" for="email">Email</label>
+          </div>
+          <div class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="password" name="password" id="login_password">
+            <label class="mdl-textfield__label" for="password">Password</label>
+          </div>
+          <p><a onclick="signin()" class="btn btn-primary mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Log in</a></p>
+        </form>
+        <p class="error" id="login-error"></p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Sign Up -->
+<div class="modal fade text-center" id="signup" tabindex="-1" role="dialog" aria-labelledby="signup">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" href="https://goo.gl/forms/wxZ7EUDMdUMoqf8r2">Sign Up</h4>
+      </div>
+      <div class="modal-body">
+<!--         <form method="post" action='/signup' name="sign_up" id="sign_up">
+          <p><input type="text" class="span3" id="sign_up_first" name="firstname" placeholder="First Name"></p>
+          <p><input type="text" class="span3" id="sign_up_last" name="lastname" placeholder="Last Name"></p>
+          <p><input type="email" class="span3" id="sign_up_email" name="email" placeholder="Email"></p>
+          <p><input type="password" class="span3" id="sign_up_pwd" name="password" placeholder="Password"></p>
+          <p><a onclick="signup()" class="btn btn-primary">Sign Up</a></p>
+        </form> -->
+        <a href="https://goo.gl/forms/wxZ7EUDMdUMoqf8r2">Sign Up for Beta</a>
+        <p class="error" id="signup-error"></p>
+      </div>
+    </div>
+  </div>
+</div>
+{# Although the following is inspired by countless splash pages across the web,
+   the design and implementation itself is orginal #}
+<div class="img-bg">
+  <div class="info-wrapper">
+    <div class="info">
+      <h1>
+        TexIt
+      </h1>
+      <p>
+        Quick, Elegant, LaTeX
+      </p>
+      <a data-toggle="modal" data-target="#signup" class="call-to-action">
+        {# a href="https://goo.gl/forms/wxZ7EUDMdUMoqf8r2" class="call-to-action">  #}
+        Sign Up
+      </a>
+    </div>
+  </div>
+</div>
+<div id="demo-snackbar-example" class="mdl-js-snackbar mdl-snackbar">
+  <div class="mdl-snackbar__text"></div>
+  <button class="mdl-snackbar__action" type="button"></button>
+</div>
+{% include 'comp/footer.html' %}
+</body>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script>
+    function signup() {
+        err = $("#signup-error");
+        first = $("#sign_up_first");
+        last = $("#sign_up_last");
+        email = $("#sign_up_email");
+        pass = $("#sign_up_pwd");
+        err.text("");
+        if (first.val().length <  1 || first.val().length > 20) {
+            err.text("First name must be between 1 and 20 characters");
+            return;
+        }
+        if (last.val().length < 1 || last.val().length > 20) {
+            err.text("Last name must be between 1 and 20 characters");
+            return;
+        }
+        if (email.val().length > 40) {
+            err.text("Email must be less than 40 characters");
+            return;
+        }
+        if (pass.val().length < 3 || pass.val().length > 40) {
+            err.text("Password must be between 3 and 40 characters");
+            return;
+        }
+        $("#sign_up").submit();
+    }
+</script>
+<script>
+    var signin = function() {
+        err = $("#login-error");
+        email = $("#login_email");
+        pass = $("#login_password");
+        if (email.val().length > 40) {
+            err.text("Email must be less than 40 characters");
+            return;
+        }
+        if (pass.val().length > 40) {
+            err.text("Password must be less than 40 characters");
+            return;
+        }
+        $("#log_in").submit();
+    };
+
+    (function() {
+        'use strict';
+        var snackbarContainer = document.querySelector('#demo-snackbar-example');
+        var handler = function(event) {
+            $("#signup").modal()
+        };
+        $(document).ready(function() {
+            if ("{{ error }}" != "") {
+                // as always, snackbar code is taken from the material design lite website.
+                setTimeout(function () {
+                    'use strict';
+                    var data = {
+                        message: '{{ error }}',
+                        timeout: 5000,
+                        actionHandler: handler,
+                        actionText: 'Sign Up'
+                    };
+                    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+                }, 1000)
+            }
+        });
+    }());
+</script>

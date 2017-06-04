@@ -1,0 +1,105 @@
+<!-- New Upload -->
+
+<div class="mdl-card mdl-shadow--2dp new-upload hidden" id="new"  >
+  <div class="mdl-card__title">
+    <h2 class="mdl-card__title-text">Upload New File</h2>
+  </div>
+  <div class="mdl-card__supporting-text">
+    <form method="post" action='/new' name="new" enctype="multipart/form-data" id="upload_file">
+        <input type="text" class="span3 mdl-textfield__input" name="title" placeholder="Title" id="title" required >
+        <div class="error hidden" id="title-error"></div>
+        <select name="course" id="course" required style="width:250px;">
+          {% for course in courses %}
+            <option value="{{ course.class_id }}">{{ course.name }}</option>
+          {% endfor %}
+        </select>
+
+      {# with thanks to Alexander Gaziev on codepen #}
+      <div class="file_input_div">
+        <div class="file_input">
+          <label class="image_input_button mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--colored">
+            <i class="material-icons">file_upload</i>
+            <input id="file_input_file" class="none" type="file" name="upload_pic" />
+          </label>
+        </div>
+        <div id="file_input_text_div" class="mdl-textfield mdl-js-textfield textfield-demo">
+          <input class="file_input_text mdl-textfield__input" type="text" disabled readonly id="file_input_text" name="upload_pic" />
+          <label class="mdl-textfield__label" for="file_input_text"></label>
+        </div>
+      </div>
+      <div class="error hidden" id="file-error"></div>
+
+    </form>
+  </div>
+  <div class="mdl-card__actions mdl-card--border">
+    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onclick="submit(this);">
+      Upload
+    </a>
+    <div id="editor-cover" class="hidden">
+      <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+    </div>
+  </div>
+  <div class="mdl-card__menu">
+    <a type="button" class="close" aria-label="Close" onclick="toggle_dialog()">
+      <i class="material-icons">close</i>
+    </a>
+  </div>
+</div>
+<script>
+    var submit = function(link) {
+        $(".error").addClass("hidden");
+         // check form elements
+        if ($("#title").val().length < 3) {
+            $("#title-error").text("Title must be at least 3 characters").removeClass("hidden");
+            return;
+        }
+        if ($("#title").val().length > 40) {
+            $("#title-error").text("Title must be shorter than 40 characters").removeClass("hidden");
+            return;
+        }
+        if ($("#file_input_file").val() == "") {
+          $("#file-error").text("You must include a file").removeClass("hidden");
+          return;
+          //TODO: Hide error message when field edited
+        }
+        // animate and submit
+        $(link).addClass("disabled");
+        $("#editor-cover").removeClass("hidden");
+        $("#upload-info").attr("disabled","disabled");
+        document.getElementById('upload_file').submit();
+    };
+    var toggle_dialog = function() {
+        $("#new").toggleClass("hidden")
+    };
+
+    var fileInputTextDiv = document.getElementById('file_input_text_div');
+    var fileInput = document.getElementById('file_input_file');
+    var fileInputText = document.getElementById('file_input_text');
+
+    fileInput.addEventListener('change', changeInputText);
+    fileInput.addEventListener('change', changeState);
+
+    function changeInputText() {
+        var str = fileInput.value;
+        var i;
+        if (str.lastIndexOf('\\')) {
+            i = str.lastIndexOf('\\') + 1;
+        } else if (str.lastIndexOf('/')) {
+            i = str.lastIndexOf('/') + 1;
+        }
+        fileInputText.value = str.slice(i, str.length);
+    }
+
+    function changeState() {
+        if (fileInputText.value.length != 0) {
+            if (!fileInputTextDiv.classList.contains("is-focused")) {
+                fileInputTextDiv.classList.add('is-focused');
+            }
+        } else {
+            if (fileInputTextDiv.classList.contains("is-focused")) {
+                fileInputTextDiv.classList.remove('is-focused');
+            }
+        }
+    }
+
+</script>

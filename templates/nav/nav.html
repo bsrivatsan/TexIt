@@ -1,0 +1,43 @@
+<header class="mdl-layout__header">
+  <div class="mdl-layout__header-row">
+    {% block title %}
+      <a href="/files"><span class="mdl-layout-title brand">TexIt</span> </a>
+    {% endblock %}
+    <div class="mdl-layout-spacer"></div>
+    {% block middle %}{% endblock %}
+    <!-- Add spacer, to align navigation to the right -->
+    <div class="mdl-layout-spacer"></div>
+    {% block right %}
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="{{ url_for('settings') }}">{{ name }}</a>
+      </nav>
+      <button id="demo-menu-lower-right"
+              class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">more_vert</i>
+      </button>
+      <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+          for="demo-menu-lower-right">
+        <li class="mdl-menu__item option" data-href="{{ url_for('settings') }}">
+          <a>Settings</a>
+        </li>
+        <li class="mdl-menu__item option" data-href="{{url_for('static', filename='user_guide.pdf')}}">
+          <a>Help</a>
+        </li>
+        <li class="mdl-menu__item option" data-href="{{ url_for('about') }}">
+          <a>About</a>
+        </li>
+        <li class="mdl-menu__item option" data-href="{{ url_for('logout') }}">
+          <a>Logout</a>
+        </li>
+      </ul>
+    {% endblock %}
+  </div>
+</header>
+
+<script>
+    jQuery(document).ready(function($) {
+        $(".option").click(function() {
+            window.location = $(this).data("href");
+        });
+    });
+</script>
